@@ -1,5 +1,6 @@
-import 'package:app_estoque_limpeza/presentation/pages/usuarios_page.dart';
+import 'package:app_estoque_limpeza/presentation/pages/fornecedor_page.dart';
 import 'package:app_estoque_limpeza/presentation/pages/material_page.dart';
+import 'package:app_estoque_limpeza/presentation/pages/usuarios_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const MaterialPage(), // MaterialPage como home
+      home: FornecedorPage(), // MaterialPage como home
     );
   }
 }

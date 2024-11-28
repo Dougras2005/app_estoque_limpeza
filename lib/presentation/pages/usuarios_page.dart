@@ -52,9 +52,33 @@ class UsuariosPageState extends State<UsuariosPage> {
 
   @override
   Widget build(BuildContext context) {
+    final inputDecoration = InputDecoration(
+      filled: true,
+      fillColor: Colors.blue[50],
+      labelStyle: const TextStyle(color: Colors.black),
+      hintStyle: const TextStyle(color: Colors.black54),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.blue),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.blue, width: 2),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.red),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastro de Usuário'),
+        backgroundColor: Colors.blue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -65,10 +89,8 @@ class UsuariosPageState extends State<UsuariosPage> {
             children: [
               TextFormField(
                 controller: _nomeController,
-                decoration: const InputDecoration(
-                  labelText: 'Nome',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: inputDecoration.copyWith(labelText: 'Nome'),
+                style: const TextStyle(color: Colors.black),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'O nome é obrigatório';
@@ -79,11 +101,9 @@ class UsuariosPageState extends State<UsuariosPage> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _telefoneController,
-                decoration: const InputDecoration(
-                  labelText: 'Telefone',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: inputDecoration.copyWith(labelText: 'Telefone'),
                 keyboardType: TextInputType.phone,
+                style: const TextStyle(color: Colors.black),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'O telefone é obrigatório';
@@ -100,10 +120,8 @@ class UsuariosPageState extends State<UsuariosPage> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _matriculaController,
-                decoration: const InputDecoration(
-                  labelText: 'Matrícula',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: inputDecoration.copyWith(labelText: 'Matrícula'),
+                style: const TextStyle(color: Colors.black),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'A matrícula é obrigatória';
@@ -117,11 +135,9 @@ class UsuariosPageState extends State<UsuariosPage> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: inputDecoration.copyWith(labelText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
+                style: const TextStyle(color: Colors.black),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'O email é obrigatório';
@@ -134,10 +150,7 @@ class UsuariosPageState extends State<UsuariosPage> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                  labelText: 'Perfil',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: inputDecoration.copyWith(labelText: 'Perfil'),
                 value: _perfilSelecionado,
                 items: _perfis
                     .map((perfil) => DropdownMenuItem(
@@ -162,8 +175,12 @@ class UsuariosPageState extends State<UsuariosPage> {
                 child: ElevatedButton(
                   onPressed: _cadastrarUsuario,
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 32, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   child: const Text('Cadastrar'),
                 ),
