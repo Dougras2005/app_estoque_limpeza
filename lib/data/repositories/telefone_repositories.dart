@@ -1,5 +1,5 @@
 import 'package:app_estoque_limpeza/core/database_helper.dart';
-import 'package:app_estoque_limpeza/data/model/TelefoneModel/Telefone_model.dart';
+import 'package:app_estoque_limpeza/data/model/telefone_model.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class TelefoneRepository {
