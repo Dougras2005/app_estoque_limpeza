@@ -1,15 +1,15 @@
-class Material {
+class MaterialModel {
   final int? idMaterial;
   final String codigo;
   final String nome;
-  final double quantidade;
-  final String validade;
+  final int quantidade;
+  final String? validade;
   final String local;
   final int idtipo;
   final int idfornecedor;
   final String entrada;
 
-  Material({
+  MaterialModel({
     this.idMaterial,
     required this.codigo,
     required this.nome,
