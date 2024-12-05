@@ -44,4 +44,33 @@ class FornecedorRepository {
       whereArgs: [id],
     );
   }
+
+  Future<int?> getIdByForenecedor(String fornecedor) async {
+    final db = await DatabaseHelper.initDb();
+    final List<Map<String, Object?>> result = await db.query(
+      'fornecedor',
+      columns: ['idfornecedor'],
+      where: 'nome = ?',
+      whereArgs: [fornecedor],
+      limit: 1,
+    );
+
+    if (result.isNotEmpty) {
+      return result.first['idfornecedor'] as int?;
+    }
+    return null; // Retorna null se não encontrar o tipo
+  }
+
+  Future<List<String>> getNomesFornecedores() async {
+    final db = await DatabaseHelper.initDb();
+
+    // Consulta os nomes dos fornecedores
+    final List<Map<String, Object?>> result = await db.query(
+      'fornecedor',
+      columns: ['nome'], // Seleciona apenas a coluna 'nome'
+    );
+
+    // Mapeia o resultado para uma lista de Strings (nomes)
+    return result.map((map) => map['nome'] as String).toList();
+  }
 }
