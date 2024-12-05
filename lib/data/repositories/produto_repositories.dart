@@ -1,24 +1,22 @@
-import 'dart:ffi';
-
 import 'package:app_estoque_limpeza/core/database_helper.dart';
-import 'package:app_estoque_limpeza/data/model/material_model.dart';
+import 'package:app_estoque_limpeza/data/model/produto_model.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-class MaterialRepository {
-  Future<void> insertMaterial(MaterialModel material) async {
+class ProdutoRepositories {
+  Future<void> insertProduto(ProdutoModel produto) async {
     final db = await DatabaseHelper.initDb();
     await db.insert(
-      'Material',
-      material.toMap(),
+      'Produto',
+      produto.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<List<MaterialModel>> getMateriais() async {
+  Future<List<ProdutoModel>> getProduto() async {
     final db = await DatabaseHelper.initDb();
-    final List<Map<String, Object?>> materialMaps = await db.query('Material');
-    return materialMaps.map((map) {
-      return MaterialModel(
+    final List<Map<String, Object?>> produtoMaps = await db.query('Produto');
+    return produtoMaps.map((map) {
+      return ProdutoModel(
         idMaterial: map['idMaterial'] as int?,
         codigo: map['Codigo'] as String,
         nome: map['Nome'] as String,
@@ -32,20 +30,20 @@ class MaterialRepository {
     }).toList();
   }
 
-  Future<void> updateMaterial(MaterialModel material) async {
+  Future<void> updateProduto(ProdutoModel produto) async {
     final db = await DatabaseHelper.initDb();
     await db.update(
-      'Material',
-      material.toMap(),
+      'Produto',
+      produto.toMap(),
       where: 'idMaterial = ?',
-      whereArgs: [material.idMaterial],
+      whereArgs: [produto.idMaterial],
     );
   }
 
-  Future<void> deleteMaterial(int id) async {
+  Future<void> deleteProduto(int id) async {
     final db = await DatabaseHelper.initDb();
     await db.delete(
-      'Material',
+      'Produto',
       where: 'idMaterial = ?',
       whereArgs: [id],
     );

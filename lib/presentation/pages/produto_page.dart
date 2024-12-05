@@ -1,7 +1,6 @@
-import 'package:app_estoque_limpeza/data/model/fornecedor_model.dart';
-import 'package:app_estoque_limpeza/data/model/material_model.dart';
+import 'package:app_estoque_limpeza/data/model/produto_model.dart';
 import 'package:app_estoque_limpeza/data/repositories/fornecedor_repository.dart';
-import 'package:app_estoque_limpeza/data/repositories/material_repositories.dart';
+import 'package:app_estoque_limpeza/data/repositories/produto_repositories.dart';
 import 'package:app_estoque_limpeza/data/repositories/tipo_repositories.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +29,7 @@ class ProdutosState extends State<ProdutosPage> {
       []; // Lista para armazenar fornecedores carregados
 
   // Instâncias dos repositórios
-  final MaterialRepository _materialRepository = MaterialRepository();
+  final ProdutoRepositories _materialRepository = ProdutoRepositories();
   final TipoRepository _tipoRepository = TipoRepository();
   final FornecedorRepository _fornecedorRepository = FornecedorRepository();
 
@@ -66,7 +65,7 @@ class ProdutosState extends State<ProdutosPage> {
             await _fornecedorRepository.getIdByForenecedor(_fornecedor!);
 
         // Cria o objeto Material
-        final material = MaterialModel(
+        final material = ProdutoModel(
           idMaterial: null, // ID gerado automaticamente
           codigo: _codigoController.text,
           nome: _nomeController.text,
@@ -81,7 +80,7 @@ class ProdutosState extends State<ProdutosPage> {
         );
 
         // Insere o material no banco de dados
-        await _materialRepository.insertMaterial(material);
+        await _materialRepository.insertProduto(material);
 
         // Exibe mensagem de sucesso
         ScaffoldMessenger.of(context).showSnackBar(

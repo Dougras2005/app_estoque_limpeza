@@ -1,13 +1,12 @@
-import 'package:app_estoque_limpeza/data/repositories/material_repositories.dart';
+import 'package:app_estoque_limpeza/data/model/produto_model.dart';
+import 'package:app_estoque_limpeza/data/repositories/produto_repositories.dart';
 import 'package:flutter/material.dart';
-import 'package:app_estoque_limpeza/data/model/material_model.dart'
-    as app_model;
 
-class MaterialViewModel extends ChangeNotifier {
-  final MaterialRepository _repository = MaterialRepository();
+class ProdutoViewModel extends ChangeNotifier {
+  final ProdutoRepositories _repository = ProdutoRepositories();
 
-  List<app_model.MaterialModel> _materiais = [];
-  List<app_model.MaterialModel> get materiais => _materiais;
+  List<ProdutoModel> _produto = [];
+  List<ProdutoModel> get produto => _produto;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -15,12 +14,12 @@ class MaterialViewModel extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  Future<void> fetchMateriais() async {
+  Future<void> fetchProduto() async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      _materiais = await _repository.getMateriais();
+      _produto = await _repository.getProduto();
       _errorMessage = null;
     } catch (error) {
       _errorMessage = 'Erro ao buscar materiais: $error';
@@ -30,13 +29,13 @@ class MaterialViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> addMaterial(app_model.MaterialModel material) async {
+  Future<void> addProduto(ProdutoModel produto) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      await _repository.insertMaterial(material);
-      _materiais.add(material);
+      await _repository.insertProduto(produto);
+      _produto.add(produto);
       _errorMessage = null;
     } catch (error) {
       _errorMessage = 'Erro ao adicionar material: $error';
@@ -46,16 +45,16 @@ class MaterialViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateMaterial(app_model.MaterialModel material) async {
+  Future<void> updateProduto(ProdutoModel produto) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      await _repository.updateMaterial(material);
+      await _repository.updateProduto(produto);
       final index =
-          _materiais.indexWhere((m) => m.idMaterial == material.idMaterial);
+          _produto.indexWhere((m) => m.idMaterial == produto.idMaterial);
       if (index != -1) {
-        _materiais[index] = material;
+        _produto[index] = produto;
       }
       _errorMessage = null;
     } catch (error) {
@@ -66,13 +65,13 @@ class MaterialViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteMaterial(int id) async {
+  Future<void> deleteProduto(int id) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      await _repository.deleteMaterial(id);
-      _materiais.removeWhere((m) => m.idMaterial == id);
+      await _repository.deleteProduto(id);
+      _produto.removeWhere((m) => m.idMaterial == id);
       _errorMessage = null;
     } catch (error) {
       _errorMessage = 'Erro ao excluir material: $error';

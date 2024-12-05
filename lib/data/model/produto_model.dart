@@ -1,4 +1,4 @@
-class MaterialModel {
+class ProdutoModel {
   final int? idMaterial;
   final String codigo;
   final String nome;
@@ -9,7 +9,7 @@ class MaterialModel {
   final int idfornecedor;
   final String entrada;
 
-  MaterialModel({
+  ProdutoModel({
     this.idMaterial,
     required this.codigo,
     required this.nome,
