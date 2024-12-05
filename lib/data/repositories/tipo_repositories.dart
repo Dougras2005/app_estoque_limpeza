@@ -41,4 +41,21 @@ class TipoRepository {
       whereArgs: [id],
     );
   }
+
+  /// Retorna o idtipo com base no nome do tipo.
+  Future<int?> getIdByTipo(String tipo) async {
+    final db = await DatabaseHelper.initDb();
+    final List<Map<String, Object?>> result = await db.query(
+      'tipo',
+      columns: ['idtipo'],
+      where: 'tipo = ?',
+      whereArgs: [tipo],
+      limit: 1,
+    );
+
+    if (result.isNotEmpty) {
+      return result.first['idtipo'] as int?;
+    }
+    return null; // Retorna null se não encontrar o tipo
+  }
 }
