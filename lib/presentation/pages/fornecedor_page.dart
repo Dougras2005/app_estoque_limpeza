@@ -1,4 +1,6 @@
+import 'package:app_estoque_limpeza/data/repositories/fornecedor_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:app_estoque_limpeza/data/model/fornecedor_model.dart';
 
 class FornecedorPage extends StatefulWidget {
   const FornecedorPage({super.key});
@@ -13,20 +15,38 @@ class FornecedorState extends State<FornecedorPage> {
   final TextEditingController _enderecoController = TextEditingController();
   final TextEditingController _telefoneController = TextEditingController();
 
-  void _cadastrarFornecedor() {
+  // Instância do repositório
+  final FornecedorRepository _fornecedorRepository = FornecedorRepository();
+
+  Future<void> _cadastrarFornecedor() async {
     if (_formKey.currentState?.validate() ?? false) {
-      print('Nome: ${_nomeController.text}');
-      print('Endereço: ${_enderecoController.text}');
-      print('Telefone: ${_telefoneController.text}');
+      try {
+        // Criar o objeto fornecedor com os dados dos campos
+        final fornecedor = Fornecedor(
+          idfornecedor: null, // ID será gerado automaticamente
+          nome: _nomeController.text,
+          endereco: _enderecoController.text,
+          telefone: _telefoneController.text,
+        );
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Fornecedor cadastrado com sucesso!')),
-      );
+        // Inserir o fornecedor no banco de dados
+        await _fornecedorRepository.insertFornecedor(fornecedor);
 
-      // Limpar os campos após cadastro
-      _nomeController.clear();
-      _enderecoController.clear();
-      _telefoneController.clear();
+        // Exibir mensagem de sucesso
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Fornecedor cadastrado com sucesso!')),
+        );
+
+        // Limpar os campos após o cadastro
+        _nomeController.clear();
+        _enderecoController.clear();
+        _telefoneController.clear();
+      } catch (e) {
+        // Exibir mensagem de erro
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao cadastrar fornecedor: $e')),
+        );
+      }
     }
   }
 
