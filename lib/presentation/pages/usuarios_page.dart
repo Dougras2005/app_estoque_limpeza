@@ -1,4 +1,6 @@
+import 'package:app_estoque_limpeza/data/repositories/usuario_repositories.dart';
 import 'package:flutter/material.dart';
+import 'package:app_estoque_limpeza/data/model/usuario_model.dart';
 
 class UsuariosPage extends StatefulWidget {
   const UsuariosPage({super.key});
@@ -8,44 +10,53 @@ class UsuariosPage extends StatefulWidget {
 }
 
 class UsuariosPageState extends State<UsuariosPage> {
-  // Controladores para os campos de texto
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _telefoneController = TextEditingController();
   final TextEditingController _matriculaController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  // Lista de perfis disponíveis
   final List<String> _perfis = ['Administrador', 'Usuário'];
   String? _perfilSelecionado;
 
-  // Chave global para o formulário
   final _formKey = GlobalKey<FormState>();
 
-  // Método para cadastrar usuário
-  void _cadastrarUsuario() {
+  final UsuarioRepository _usuarioRepository = UsuarioRepository();
+
+  Future<void> _cadastrarUsuario() async {
     if (_formKey.currentState!.validate()) {
-      print('Nome: ${_nomeController.text}');
-      print('Telefone: ${_telefoneController.text}');
-      print('Matrícula: ${_matriculaController.text}');
-      print('Email: ${_emailController.text}');
-      print('Perfil: $_perfilSelecionado');
+      try {
+        final novoUsuario = Usuario(
+          idusuario: null,
+          matricula: _matriculaController.text,
+          nome: _nomeController.text,
+          idtelefone: int.parse(_telefoneController.text),
+          email: _emailController.text,
+          idperfil: _perfis.indexOf(_perfilSelecionado!) + 1,
+        );
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Usuário cadastrado com sucesso!')),
-      );
+        await _usuarioRepository.insertUsuario(novoUsuario);
 
-      // Limpar os campos após cadastro
-      _nomeController.clear();
-      _telefoneController.clear();
-      _matriculaController.clear();
-      _emailController.clear();
-      setState(() {
-        _perfilSelecionado = null;
-      });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Usuário cadastrado com sucesso!')),
+        );
+
+        _nomeController.clear();
+        _telefoneController.clear();
+        _matriculaController.clear();
+        _emailController.clear();
+        setState(() {
+          _perfilSelecionado = null;
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao cadastrar usuário: $e')),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text('Por favor, corrija os erros no formulário!')),
+          content: Text('Por favor, corrija os erros no formulário!'),
+        ),
       );
     }
   }
@@ -126,8 +137,8 @@ class UsuariosPageState extends State<UsuariosPage> {
                   if (value == null || value.isEmpty) {
                     return 'A matrícula é obrigatória';
                   }
-                  if (value.length != 8) {
-                    return 'A matrícula deve conter 8 caracteres';
+                  if (value.length < 3) {
+                    return 'A matrícula deve conter no mínimo 3 caracteres';
                   }
                   return null;
                 },
