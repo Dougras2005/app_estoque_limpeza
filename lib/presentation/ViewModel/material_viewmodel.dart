@@ -6,8 +6,8 @@ import 'package:app_estoque_limpeza/data/model/material_model.dart'
 class MaterialViewModel extends ChangeNotifier {
   final MaterialRepository _repository = MaterialRepository();
 
-  List<app_model.Material> _materiais = [];
-  List<app_model.Material> get materiais => _materiais;
+  List<app_model.MaterialModel> _materiais = [];
+  List<app_model.MaterialModel> get materiais => _materiais;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -30,7 +30,7 @@ class MaterialViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> addMaterial(app_model.Material material) async {
+  Future<void> addMaterial(app_model.MaterialModel material) async {
     _isLoading = true;
     notifyListeners();
 
@@ -46,7 +46,7 @@ class MaterialViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateMaterial(app_model.Material material) async {
+  Future<void> updateMaterial(app_model.MaterialModel material) async {
     _isLoading = true;
     notifyListeners();
 
