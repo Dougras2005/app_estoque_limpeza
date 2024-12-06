@@ -7,7 +7,6 @@ class ProdutoModel {
   final String local;
   final int idtipo;
   final int idfornecedor;
-  final String entrada;
 
   ProdutoModel({
     this.idMaterial,
@@ -18,7 +17,6 @@ class ProdutoModel {
     required this.local,
     required this.idtipo,
     required this.idfornecedor,
-    required this.entrada,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,7 +29,6 @@ class ProdutoModel {
       'Local': local,
       'idtipo': idtipo,
       'idfornecedor': idfornecedor,
-      'entrada': entrada,
     };
   }
 }

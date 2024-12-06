@@ -76,7 +76,6 @@ class ProdutosState extends State<ProdutosPage> {
           local: _localController.text,
           idtipo: idTipo!,
           idfornecedor: idFornecedor!,
-          entrada: _dataEntradaController.text,
         );
 
         // Insere o material no banco de dados
