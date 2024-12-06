@@ -34,15 +34,15 @@ class DatabaseHelper {
           ''');
 
           await db.execute('''
-            CREATE TABLE Material (
-              idMaterial INTEGER PRIMARY KEY AUTOINCREMENT,
+            CREATE TABLE produto (
+              idproduto INTEGER PRIMARY KEY AUTOINCREMENT,
               Codigo TEXT NOT NULL UNIQUE,
               Nome TEXT NOT NULL,
-              Quantidade REAL NOT NULL,
-              Validade TEXT NOT NULL,
+              Quantidade INTEGER NOT NULL,
+              Validade TEXT,
               Local TEXT NOT NULL,
               idtipo INTEGER NOT NULL,
-              idfornecedor INTEGER NOT NULL,
+              idfornecedor INTEGER,
               entrada TEXT NOT NULL,
               FOREIGN KEY (idtipo) REFERENCES tipo(idtipo),
               FOREIGN KEY (idfornecedor) REFERENCES fornecedor(idfornecedor)
@@ -54,33 +54,19 @@ class DatabaseHelper {
               idusuario INTEGER PRIMARY KEY,
               matricula TEXT NOT NULL UNIQUE,
               nome TEXT NOT NULL,
-              idtelefone INTEGER NOT NULL,
+              telefone INTEGER NOT NULL,
               email TEXT NOT NULL UNIQUE,
-              idperfil INTEGER NOT NULL
-            );
-          ''');
-
-          await db.execute('''
-            CREATE TABLE telefone (
-              idtelefone INTEGER PRIMARY KEY AUTOINCREMENT,
-              telefone REAL NOT NULL UNIQUE
-            );
-          ''');
-
-          await db.execute('''
-            CREATE TABLE perfil (
-              idperfil INTEGER PRIMARY KEY AUTOINCREMENT,
-              perfil TEXT NOT NULL
             );
           ''');
 
           await db.execute('''
             CREATE TABLE movimentacao (
               idmovimentacao INTEGER PRIMARY KEY,
+              entrada TEXT NOT NULL
               saida TEXT NOT NULL,
-              idmaterial INTEGER NOT NULL,
+              idproduto INTEGER NOT NULL,
               idusuario INTEGER NOT NULL,
-              FOREIGN KEY (idmaterial) REFERENCES Material(idMaterial),
+              FOREIGN KEY (idproduto) REFERENCES produto(idproduto),
               FOREIGN KEY (idusuario) REFERENCES usuario(idusuario)
             );
           ''');

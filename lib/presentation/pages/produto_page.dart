@@ -57,6 +57,13 @@ class ProdutosState extends State<ProdutosPage> {
   Future<void> _cadastrarMaterial() async {
     if (_formKey.currentState?.validate() ?? false) {
       try {
+        if (_tipo == null) {
+          throw Exception('O tipo do produto não pode ser nulo.');
+        }
+        if (_fornecedor == null) {
+          throw Exception('O fornecedor do produto não pode ser nulo.');
+        }
+
         // Determina o tipo do material
         final idTipo = await _tipoRepository.getIdByTipo(_tipo!);
 
@@ -64,7 +71,7 @@ class ProdutosState extends State<ProdutosPage> {
         final idFornecedor =
             await _fornecedorRepository.getIdByForenecedor(_fornecedor!);
 
-        // Cria o objeto Material
+        // Cria o objeto ProdutoModel
         final material = ProdutoModel(
           idMaterial: null, // ID gerado automaticamente
           codigo: _codigoController.text,
@@ -76,7 +83,6 @@ class ProdutosState extends State<ProdutosPage> {
           local: _localController.text,
           idtipo: idTipo!,
           idfornecedor: idFornecedor!,
-          entrada: _dataEntradaController.text,
         );
 
         // Insere o material no banco de dados
@@ -97,14 +103,14 @@ class ProdutosState extends State<ProdutosPage> {
         _dataEntradaController.clear();
         _vencimentoController.clear();
         setState(() {
-          _tipo = null;
-          _fornecedor = null;
+          _tipo;
+          _fornecedor;
         });
       } catch (e, stackTrace) {
         debugPrint(
             'Erro: $e\n$stackTrace'); // Para ver mais detalhes no console
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao carregar fornecedores: $e')),
+          SnackBar(content: Text('Erro ao cadastrar material: $e')),
         );
       }
     }
@@ -264,21 +270,6 @@ class ProdutosState extends State<ProdutosPage> {
                     return null;
                   },
                 ),
-
-                // Campo personalizado para fornecedor se a opção "Outro" for selecionada
-                if (_fornecedor == "Outro")
-                  TextFormField(
-                    controller: _fornecedorCustomController,
-                    decoration: inputDecoration.copyWith(
-                        labelText: 'Descreva o Fornecedor'),
-                    style: const TextStyle(color: Colors.black),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Descreva o fornecedor';
-                      }
-                      return null;
-                    },
-                  ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _dataEntradaController,

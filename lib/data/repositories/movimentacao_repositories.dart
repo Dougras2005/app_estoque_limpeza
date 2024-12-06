@@ -19,6 +19,7 @@ class MovimentacaoRepository {
     return movimentacaoMaps.map((map) {
       return Movimentacao(
         idmovimentacao: map['idmovimentacao'] as int?,
+        entrada: map['entrada'] as String,
         saida: map['saida'] as String,
         idmaterial: map['idmaterial'] as int,
         idusuario: map['idusuario'] as int,

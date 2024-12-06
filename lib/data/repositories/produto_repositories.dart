@@ -25,7 +25,6 @@ class ProdutoRepositories {
         local: map['Local'] as String,
         idtipo: map['idtipo'] as int,
         idfornecedor: map['idfornecedor'] as int,
-        entrada: map['entrada'] as String,
       );
     }).toList();
   }
